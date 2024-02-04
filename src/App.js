@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+import { Route, HashRouter as Router, Routes } from 'react-router-dom';
 import PanoramaViewer from './components/panorama-viewer/PanoramaViewer';
 import Home from './components/panorama-viewer/Home';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
@@ -9,6 +9,9 @@ import { FaStreetView } from "react-icons/fa";
 function App() {
   const [imageSize, setImageSize] = useState({width: 0, height: 0});
   const [imagePath, setImagePath] = useState(null);
+
+  const [loading, setLoading] = useState(true);
+
   const markersList = [
     {x: 5, y: 1, image: "Panorama3.png"},
     {x: 1, y: 3, image: "Panorama2.png"},
@@ -55,8 +58,8 @@ function App() {
         return marker.image;
       }
     });
-    setImagePath("marker.image");
-    window.location.href = "/panorama-viewer?image=" + marker.image;
+    setImagePath(marker.image);
+    window.location.href = "/#/panorama-viewer?image=" + marker.image;
   }
 
   function onClick ( event ) {
@@ -71,6 +74,7 @@ function App() {
   function onImageLoad ( event ) {
     var bounds = event.target.getBoundingClientRect();
     setImageSize({width: bounds.width, height: bounds.height});
+    setLoading(false);
   }
 
     
