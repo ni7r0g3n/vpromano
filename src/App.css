@@ -1,10 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Code+Pro:wght@700&display=swap');
+
 .App {
   text-align: center;
+  height: 100%;
+  max-height: 100vh;
+  background-color: #15171b;
+  /* width: 100vw; */
 }
 
 .App-logo {
   height: 40vmin;
   pointer-events: none;
+}
+
+#site_title > path {
+  fill: transparent;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -26,6 +36,33 @@
 
 .App-link {
   color: #61dafb;
+}
+
+.marker {
+  /* box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px; */
+  box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+  /* box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset; */
+  background-color: white;
+  border-radius: 50%;
+  position: absolute;
+  height: 1.5rem;
+  width: 1.5rem;
+  padding: 0.5rem;
+  text-align: center;
+}
+
+.marker:hover {
+  background-color: gray !important;
+}
+
+.marker-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  color: orange;
+}
+
+.marker-icon:hover{
+  color: rgb(255, 164, 53);
 }
 
 @keyframes App-logo-spin {
