@@ -71,3 +71,8 @@ transform: none;
         max-width: 100vh !important;
     }
 }
+
+.main-image {
+    border-radius: 25px;
+    box-shadow: 0 0 25px 10px rgba(0, 0, 0, 1);
+}

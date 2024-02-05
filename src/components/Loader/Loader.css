@@ -106,11 +106,32 @@
     box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.3) inset;
   }
   .spinner:after {
-    box-shadow: 0 2px 0 orange inset;
+    /* box-shadow: 0 2px 0 rgb(235, 185, 68) inset; */
+    /* box-shadow: 0 2px 0 yellow inset; */
     animation: rotate 2s linear infinite;
   }
-  
+  /* rgb(235, 185, 68) Giallo*/
+  /* rgb(63, 122, 143) Blu */
+  /* rgb(134, 36, 40) Rosso*/
   @keyframes rotate {
-    0% {  transform: rotate(0)}
-    100% { transform: rotate(360deg)}
+    0% {  
+      transform: rotate(0);
+      box-shadow: 0 2px 0 yellow;
+
+    }
+    33% { 
+      /* transform: rotate(120deg); */
+      /* box-shadow: 0 2px 0 rgb(63, 122, 143) inset;   */
+      box-shadow: 0 2px 0 blue;
+    }
+    66% { 
+      /* transform: rotate(240deg); */
+      /* box-shadow: 0 2px 0 rgb(134, 36, 40) inset;   */
+      box-shadow: 0 2px 0 red;
+    }
+    100% { 
+      transform: rotate(360deg);
+      /* box-shadow: 0 2px 0 rgb(235, 185, 68) inset; */
+      box-shadow: 0 2px 0 yellow;
+    }
   }

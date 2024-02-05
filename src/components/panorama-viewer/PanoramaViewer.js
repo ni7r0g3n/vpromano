@@ -9,12 +9,6 @@ function PanoramaViewer({close, currentImage}) {
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     // set listener for back button or device back action
-    window.addEventListener("popstate", (event) => {
-      event.preventDefault();
-      event.stopPropagation();
-
-      close()
-    });
     const scene = document.querySelector("a-scene")
 
     scene.addEventListener("loaded", () => {
@@ -23,7 +17,6 @@ function PanoramaViewer({close, currentImage}) {
     })
 
     return () => {
-      window.removeEventListener("popstate", close);
       scene.removeEventListener("loaded", () => {
         setLoading(false);
       })

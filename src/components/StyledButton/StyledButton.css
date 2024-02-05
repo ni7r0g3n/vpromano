@@ -1,0 +1,41 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,300;0,400;1,200&display=swap');
+
+
+.btn {
+        border: none;
+        /* backdrop-filter: blur(10px); */
+        color: black;
+        font-family: 'poppins', sans-serif;
+        font-weight: 300;
+        font-size: 1.5rem;
+        padding: 1rem 5rem;
+        background: linear-gradient(314deg, rgb(204, 204, 204, 0), rgb(204, 204, 204, 0), #ffffff, rgb(204, 204, 204, 0), rgb(204, 204, 204, 0));
+        background-size: 1000% 1000%;
+        -webkit-animation: AnimationName 6s ease infinite forwards;
+        -moz-animation: AnimationName 6s ease infinite forwards;
+        animation: AnimationName 6s ease infinite forwards;
+    }
+    
+    @-webkit-keyframes AnimationName {
+        0%{background-position:2% 0%}
+        50%{background-position:99% 100%}
+        100%{background-position:2% 0%}
+    }
+    @-moz-keyframes AnimationName {
+        0%{background-position:2% 0%}
+        50%{background-position:99% 100%}
+        100%{background-position:2% 0%}
+    }
+    @keyframes AnimationName {
+        0%{background-position:2% 0%}
+        50%{background-position:99% 100%}
+        100%{background-position:2% 0%}
+    }
+
+
+    @media (max-width: 768px) {
+        .btn {
+            font-size: 1rem;
+            padding: 0.5rem 2rem;
+        }
+    }

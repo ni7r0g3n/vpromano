@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Code+Pro:wght@700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,700;1,200&display=swap');
 
 .App {
   text-align: center;
@@ -55,17 +55,17 @@
 }
 
 .marker:hover {
-  background-color: gray !important;
+  background-color: black !important;
 }
 
 .marker-icon {
   width: 1.5rem;
   height: 1.5rem;
-  color: orange;
+  color: black;
 }
 
-.marker-icon:hover{
-  color: rgb(255, 164, 53);
+.marker:hover > .marker-icon{
+  color: white;
 }
 
 @keyframes App-logo-spin {

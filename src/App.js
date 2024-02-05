@@ -5,13 +5,18 @@ import PanoramaViewer from './components/panorama-viewer/PanoramaViewer';
 import Home from './components/Home/Home';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { FaStreetView } from "react-icons/fa";
+import LandingPage from './components/LandingPage/LandingPage';
 
 function App() {
   const [imageSize, setImageSize] = useState({width: 0, height: 0});
   const [offset, setOffset] = useState({x: 0, y: 0});
   const [imagePath, setImagePath] = useState(null);
   const [openViewer, setOpenViewer] = useState(false);
+  const [openHome, setOpenHome] = useState(false);
+  window.historyStack = useRef([]);
+  var navigatingForward = useRef(false);
   const imageRef = useRef(null);
+
 
   const [loading, setLoading] = useState(true);
   const aspectRatio = window.devicePixelRatio || 1;
@@ -21,21 +26,42 @@ function App() {
     {x: 0.3, y: 2.3, image: "Panorama2.png"},
     {x: 2.5, y: 0.8, image: "Panorama5.png"},
     {x: 2.4, y: 2.6, image: "Panorama6.png"},
-    {x: 4.5, y: 5.7, image: "Panorama7.png"},
+    {x: 4.4, y: 5.6, image: "Panorama7.png"},
   ];
 
   useEffect(() => {
+    if (!imageRef) return;
     const handleResize = () => {
+      if (!imageRef.current) return;
       const bounds = imageRef.current.getBoundingClientRect();
       setImageSize({width: bounds.width, height: bounds.height});
       setOffset({x: bounds.left, y: bounds.top});
     }
+
     window.addEventListener("resize", handleResize );
+    window.addEventListener("popstate", closeHome)
     return () => {
       window.removeEventListener("resize", handleResize);
+      window.removeEventListener("popstate", closeHome);
     }
   }, []);
-
+  
+  function closeHome(event){
+    event.preventDefault();
+    event.stopPropagation();
+    // console.log("Firesd", navigatingForward)
+    // if (navigatingForward){
+    //   navigatingForward = false;
+    //   return;
+    // }
+    // console.log("closingHome", window.isStateChangeAPush)
+    console.log({his: window.historyStack.current })
+    const goBack = window.historyStack.current.pop();
+    if (goBack){
+      goBack();
+    }
+    // setOpenHome(false);
+  }
 
   const markers = useMemo(() => {
     if (imageSize.width === 0) return [];
@@ -63,7 +89,7 @@ function App() {
       const offsetConstY = screenWidth > 768 ? offset.y - 40 : offset.y; //215.88
       const offsetConstX = offset.x; //0
       // console.log(`Math.round(${x} * (${imageSize.width} / 6)) + ${offsetConstX}= ${Math.round(x * (imageSize.width / 6)) + (offsetConstX)}`);
-      console.log(`Math.round(${y} * (${imageSize.height} / 6)) + ${offsetConstY}= ${Math.round(y * (imageSize.height / 6)) + (offsetConstY)}`);
+      // console.log(`Math.round(${y} * (${imageSize.height} / 6)) + ${offsetConstY}= ${Math.round(y * (imageSize.height / 6)) + (offsetConstY)}`);
       return (
         <div key={index} className='marker myGlower fadeInDelayed' onClick={() => goToViewer({x: marker.x, y: marker.y})} style={{
           // left: (Math.round(x * (imageSize.width / 6)) - 35) + 'px',
@@ -95,21 +121,37 @@ function App() {
   }
 
   function goToViewer(coords){
+    console.log("goingToViewer")
     const marker = markersList.find(marker => {
       if (marker.x === coords.x && marker.y === coords.y) {
         return marker;
       }
     });
     setImagePath(marker.image);
-    window.history.pushState(null, null, "");
+    // window.isStateChangeAPush = true;
+    navigatingForward = true
+    console.log({his: window.historyStack})
+    window.historyStack.current.push(() => setOpenViewer(false));
+    window.history.pushState({}, null, "")
+    console.log({his: window.historyStack})
     setOpenViewer(true);
     // window.location.href = "/#/panorama-viewer?image=" + marker.image;
   }
 
   function onClick ( event ) {
     var coords = relativeCoords( event );
-    console.log( "x: " + coords.x + ", y: " + coords.y );
+    // console.log( "x: " + coords.x + ", y: " + coords.y );
     goToViewer(coords);
+  }
+
+  function onEnter(){
+    console.log("onEnter")
+    // window.isStateChangeAPush = true
+    navigatingForward = true
+    window.historyStack.current.push(() => setOpenHome(false));
+    window.history.pushState({}, null, "")
+    console.log({his: window.historyStack})
+    setOpenHome(true);
   }
 
   //on img load get the width and height of the image to then place divs on top of it
@@ -117,21 +159,33 @@ function App() {
   //also need to make the divs responsive to the image size
   function onImageLoad ( event ) {
     console.log("image loaded");
+    if (!loading) return;
     var bounds = event.target.getBoundingClientRect();
     setImageSize({width: bounds.width, height: bounds.height});
     setOffset({x: bounds.left, y: bounds.top});
     setLoading(false);
   }
 
+  function Viewer(){
+    return (
+    <>
+        { openViewer ?
+        <PanoramaViewer close={() => closeHome(new Event(""))} currentImage={imagePath} />
+        :  
+        <Home markers={markers} loading={loading} imageRef={imageRef} onImageLoad={onImageLoad} onClick={onClick} />
+        }
+    </>
+      )
+  }
     
 
   return (
     <div className="App">
-      { openViewer ?
-        <PanoramaViewer currentImage={imagePath} close={() => setOpenViewer(false)}/>
-        :  
-        <Home markers={markers} loading={loading} imageRef={imageRef} onImageLoad={onImageLoad} onClick={onClick} />
-      }    
+      {!openHome ?
+       <LandingPage onClick={onEnter}> </LandingPage>
+        : 
+      <Viewer/>
+      }
     </div>
   );
 }
