@@ -3,34 +3,74 @@ import './App.css';
 import { Route, HashRouter as Router, Routes } from 'react-router-dom';
 import PanoramaViewer from './components/panorama-viewer/PanoramaViewer';
 import Home from './components/Home/Home';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { FaStreetView } from "react-icons/fa";
 
 function App() {
   const [imageSize, setImageSize] = useState({width: 0, height: 0});
+  const [offset, setOffset] = useState({x: 0, y: 0});
   const [imagePath, setImagePath] = useState(null);
   const [openViewer, setOpenViewer] = useState(false);
+  const imageRef = useRef(null);
 
   const [loading, setLoading] = useState(true);
   const aspectRatio = window.devicePixelRatio || 1;
 
   const markersList = [
-    {x: 5, y: 1, image: "Panorama3.png"},
-    {x: 1, y: 3, image: "Panorama2.png"},
-    {x: 3, y: 1, image: "Panorama5.png"},
-    {x: 3, y: 3, image: "Panorama6.png"},
-    {x: 5, y: 6, image: "Panorama7.png"},
+    {x: 4.15, y: 0.5, image: "Panorama3.png"},
+    {x: 0.3, y: 2.3, image: "Panorama2.png"},
+    {x: 2.5, y: 0.8, image: "Panorama5.png"},
+    {x: 2.4, y: 2.6, image: "Panorama6.png"},
+    {x: 4.5, y: 5.7, image: "Panorama7.png"},
   ];
+
+  useEffect(() => {
+    const handleResize = () => {
+      const bounds = imageRef.current.getBoundingClientRect();
+      setImageSize({width: bounds.width, height: bounds.height});
+      setOffset({x: bounds.left, y: bounds.top});
+    }
+    window.addEventListener("resize", handleResize );
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    }
+  }, []);
+
 
   const markers = useMemo(() => {
     if (imageSize.width === 0) return [];
 
     return markersList.map((marker, index) => {
       const id = `marker-${index}`;
+      const screenWidth = window.innerWidth;
+
+      const centerX = 3;  // Center of the grid
+      const centerY = 3;  // Center of the grid
+  
+      // Calculate rotated coordinates with respect to the center
+      const xDiff = marker.x - centerX;
+      const yDiff = marker.y - centerY;
+  
+      const rotatedX = centerX + yDiff;
+      const rotatedY = centerY - xDiff;
+  
+      var x = screenWidth > 768 ? rotatedX : marker.x;
+      var y = screenWidth > 768 ? rotatedY : marker.y;
+
+      x = x >= 0 ? x : 0;
+      y = y >= 0 ? y : 0;
+
+      const offsetConstY = screenWidth > 768 ? offset.y - 40 : offset.y; //215.88
+      const offsetConstX = offset.x; //0
+      // console.log(`Math.round(${x} * (${imageSize.width} / 6)) + ${offsetConstX}= ${Math.round(x * (imageSize.width / 6)) + (offsetConstX)}`);
+      console.log(`Math.round(${y} * (${imageSize.height} / 6)) + ${offsetConstY}= ${Math.round(y * (imageSize.height / 6)) + (offsetConstY)}`);
       return (
-        <div key={index} className='marker myGlower fadeIn' onClick={() => goToViewer({x: marker.x, y: marker.y})} style={{
-          left: (Math.round(marker.x * (imageSize.width / 6)) - 35) + 'px',
-          top: (Math.round(marker.y * (imageSize.height / 6)) + 25) + 'px'}}
+        <div key={index} className='marker myGlower fadeInDelayed' onClick={() => goToViewer({x: marker.x, y: marker.y})} style={{
+          // left: (Math.round(x * (imageSize.width / 6)) - 35) + 'px',
+          //account for offset of the image
+          left: (Math.round(x * (imageSize.width / 6)) + (offsetConstX)) + 'px', //152.66 * 2.6 + 0 = 396.716
+          // top: (Math.round(y * (imageSize.height / 6)) + 25) + 'px'}}
+          top: (Math.round(y * (imageSize.height / 6)) + (offsetConstY)) + 'px'}} // 215.88 + 152.66 * 2.4 = 600.52
         >
           <FaStreetView
             className="marker-icon"
@@ -79,6 +119,7 @@ function App() {
     console.log("image loaded");
     var bounds = event.target.getBoundingClientRect();
     setImageSize({width: bounds.width, height: bounds.height});
+    setOffset({x: bounds.left, y: bounds.top});
     setLoading(false);
   }
 
@@ -89,7 +130,7 @@ function App() {
       { openViewer ?
         <PanoramaViewer currentImage={imagePath} close={() => setOpenViewer(false)}/>
         :  
-        <Home markers={markers} loading={loading} onImageLoad={onImageLoad} onClick={onClick} />
+        <Home markers={markers} loading={loading} imageRef={imageRef} onImageLoad={onImageLoad} onClick={onClick} />
       }    
     </div>
   );
