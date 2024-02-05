@@ -1,0 +1,116 @@
+.loader{
+    font-size: 1rem;
+    color: #FFF;
+    display: inline-block;
+    font-family: 'Source Code Pro', monospace;
+    font-weight: 400;
+    position: relative;
+    margin-top: 1rem;
+  }
+  .loader:before{
+    content: '';
+    animation: 8s print linear infinite;
+  }
+  .loader:after{
+    content: '';
+    position: absolute;
+    right: -4px;
+    top: 50%;
+    transform: translatey(-45%);
+    width: 2px;
+    height: 1.3em;
+    background: currentColor;
+    opacity: 0.8;
+    animation: 1s blink steps(2) infinite;
+  }
+
+  .backdrop-gradient{
+    background: rgb(0,0,0);
+    background: radial-gradient(circle, rgba(0,0,0,0.7) 40%, rgba(0,0,0,0.2) 100%);
+    }
+  
+  @keyframes blink {
+    0%  { visibility: hidden;}
+    100%  { visibility: visible;}
+  }
+  @keyframes print {
+        0% { content: 'L'; }
+        3.48% { content: 'Lo'; }
+        6.96% { content: 'Loa'; }
+        10.44% { content: 'Load'; }
+        13.91% { content: 'Loadi'; }
+        17.39% { content: 'Loadin'; }
+        20.87% { content: 'Loading'; }
+        24.35% { content: 'Loading,'; }
+        27.83% { content: 'Loading, '; }
+        31.3% { content: 'Loading, p'; }
+        34.78% { content: 'Loading, pl'; }
+        38.26% { content: 'Loading, ple'; }
+        41.74% { content: 'Loading, plea'; }
+        45.22% { content: 'Loading, pleas'; }
+        48.7% { content: 'Loading, please'; }
+        52.17% { content: 'Loading, please '; }
+        55.65% { content: 'Loading, please w'; }
+        59.13% { content: 'Loading, please wa'; }
+        62.61% { content: 'Loading, please wai'; }
+        66.09% { content: 'Loading, please wait'; }
+        69.57% { content: 'Loading, please wait.'; }
+        73.04% { content: 'Loading, please wait..'; }
+        76.52% { content: 'Loading, please wait...'; }
+        80% { content: 'Loading, please wait...'; }
+        80.87% { content: 'Loading, please wait..'; }
+        81.74% { content: 'Loading, please wait.'; }
+        82.61% { content: 'Loading, please wait'; }
+        83.48% { content: 'Loading, please wai'; }
+        84.35% { content: 'Loading, please wa'; }
+        85.22% { content: 'Loading, please w'; }
+        86.09% { content: 'Loading, please '; }
+        86.96% { content: 'Loading, please'; }
+        87.83% { content: 'Loading, pleas'; }
+        88.7% { content: 'Loading, plea'; }
+        89.57% { content: 'Loading, ple'; }
+        90.43% { content: 'Loading, pl'; }
+        91.3% { content: 'Loading, p'; }
+        92.17% { content: 'Loading, '; }
+        93.04% { content: 'Loading,'; }
+        93.91% { content: 'Loading'; }
+        94.78% { content: 'Loadin'; }
+        95.65% { content: 'Loadi'; }
+        96.52% { content: 'Load'; }
+        97.39% { content: 'Loa'; }
+        98.26% { content: 'Lo'; }
+        99.13% { content: 'L'; }
+        100% { content: ''; }
+      
+  }
+
+
+
+
+
+
+
+
+
+  .spinner {
+    position: relative;
+    width: 100px;
+    height: 100px;
+  }
+  
+  .spinner:before , .spinner:after{
+    content: '';
+    border-radius: 50%;
+    position: absolute;
+    inset: 0;
+    box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.3) inset;
+  }
+  .spinner:after {
+    box-shadow: 0 2px 0 orange inset;
+    animation: rotate 2s linear infinite;
+  }
+  
+  @keyframes rotate {
+    0% {  transform: rotate(0)}
+    100% { transform: rotate(360deg)}
+  }

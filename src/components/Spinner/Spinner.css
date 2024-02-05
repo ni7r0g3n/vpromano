@@ -1,0 +1,15 @@
+
+/* Rotating animation */
+.color-ring-wrapper{
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+/* A back gradient radiating from a dark middle to a soft */
+.backdrop-gradient{
+    background: radial-gradient(circle, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.5) 100%);
+}

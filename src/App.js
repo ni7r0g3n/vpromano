@@ -2,15 +2,17 @@ import logo from './logo.svg';
 import './App.css';
 import { Route, HashRouter as Router, Routes } from 'react-router-dom';
 import PanoramaViewer from './components/panorama-viewer/PanoramaViewer';
-import Home from './components/panorama-viewer/Home';
+import Home from './components/Home/Home';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { FaStreetView } from "react-icons/fa";
 
 function App() {
   const [imageSize, setImageSize] = useState({width: 0, height: 0});
   const [imagePath, setImagePath] = useState(null);
+  const [openViewer, setOpenViewer] = useState(false);
 
   const [loading, setLoading] = useState(true);
+  const aspectRatio = window.devicePixelRatio || 1;
 
   const markersList = [
     {x: 5, y: 1, image: "Panorama3.png"},
@@ -26,9 +28,9 @@ function App() {
     return markersList.map((marker, index) => {
       const id = `marker-${index}`;
       return (
-        <div key={index} className='marker myGlower' onClick={() => goToViewer({x: marker.x, y: marker.y})} style={{
-          left: (marker.x * (imageSize.width / 6)) - 35  + 'px',
-          top: (marker.y * (imageSize.height / 6)) + 35   + 'px'}}
+        <div key={index} className='marker myGlower fadeIn' onClick={() => goToViewer({x: marker.x, y: marker.y})} style={{
+          left: (Math.round(marker.x * (imageSize.width / 6)) - 35) + 'px',
+          top: (Math.round(marker.y * (imageSize.height / 6)) + 25) + 'px'}}
         >
           <FaStreetView
             className="marker-icon"
@@ -55,11 +57,13 @@ function App() {
   function goToViewer(coords){
     const marker = markersList.find(marker => {
       if (marker.x === coords.x && marker.y === coords.y) {
-        return marker.image;
+        return marker;
       }
     });
     setImagePath(marker.image);
-    window.location.href = "/#/panorama-viewer?image=" + marker.image;
+    window.history.pushState(null, null, "");
+    setOpenViewer(true);
+    // window.location.href = "/#/panorama-viewer?image=" + marker.image;
   }
 
   function onClick ( event ) {
@@ -72,6 +76,7 @@ function App() {
   //to then make the divs clickable to go to the panorama viewer
   //also need to make the divs responsive to the image size
   function onImageLoad ( event ) {
+    console.log("image loaded");
     var bounds = event.target.getBoundingClientRect();
     setImageSize({width: bounds.width, height: bounds.height});
     setLoading(false);
@@ -81,14 +86,11 @@ function App() {
 
   return (
     <div className="App">
-      <Router>
-        <Routes>
-          <Route path='/' element={<Home markers={markers} onImageLoad={onImageLoad} onClick={onClick} />}/>
-          <Route path='/panorama-viewer' element={
-            <PanoramaViewer/>
-          }/>
-        </Routes>
-      </Router>
+      { openViewer ?
+        <PanoramaViewer currentImage={imagePath} close={() => setOpenViewer(false)}/>
+        :  
+        <Home markers={markers} loading={loading} onImageLoad={onImageLoad} onClick={onClick} />
+      }    
     </div>
   );
 }
