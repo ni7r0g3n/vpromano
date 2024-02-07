@@ -41,7 +41,7 @@ function PanoramaViewer({close, currentImage}) {
         </a>
         
         <a-scene loading-screen="enabled:true;">
-            <a-sky src={"/residence-ar/" + currentImage}></a-sky>
+            <a-sky src={"/vpromano/" + currentImage}></a-sky>
         </a-scene>
         {loading ? <Loader></Loader> : null}
     </div>
