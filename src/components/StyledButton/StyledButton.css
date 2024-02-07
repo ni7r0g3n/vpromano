@@ -11,10 +11,15 @@
         padding: 1rem 5rem;
         background: linear-gradient(314deg, rgb(204, 204, 204, 0), rgb(204, 204, 204, 0), #ffffff, rgb(204, 204, 204, 0), rgb(204, 204, 204, 0));
         background-size: 1000% 1000%;
-        -webkit-animation: AnimationName 6s ease infinite forwards;
-        -moz-animation: AnimationName 6s ease infinite forwards;
-        animation: AnimationName 6s ease infinite forwards;
+        -webkit-animation: AnimationName 5s ease infinite forwards;
+        -moz-animation: AnimationName 5s ease infinite forwards;
+        animation: AnimationName 5s ease infinite forwards;
+        cursor: pointer;
     }
+
+.btn:hover {
+    background: rgb(204, 204, 204, 0.5); 
+}
     
     @-webkit-keyframes AnimationName {
         0%{background-position:2% 0%}

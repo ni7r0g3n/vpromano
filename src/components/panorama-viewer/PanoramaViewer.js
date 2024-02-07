@@ -34,7 +34,8 @@ function PanoramaViewer({close, currentImage}) {
         color: "white", 
         fontWeight: "bold",
         fontSize: "1.5rem",
-        lineHeight: "1.5rem", 
+        lineHeight: "1.5rem",
+        cursor: "pointer",
         textShadow: "0px 0px 3px rgba(0,0,0,1)"}} onClick={close}>
           <FaChevronLeft className="shadow" size={16}></FaChevronLeft> BACK
         </a>
