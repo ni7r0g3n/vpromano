@@ -20,7 +20,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d build --remote production"
   },
   "eslintConfig": {
     "extends": [
@@ -43,5 +43,5 @@
   "devDependencies": {
     "gh-pages": "^6.1.1"
   },
-  "homepage": "https://ni7r0g3n.github.io/residence-ar"
+  "homepage": "https://ni7r0g3n.github.io/vpromano"
 }
