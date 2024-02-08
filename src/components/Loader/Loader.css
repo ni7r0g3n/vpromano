@@ -5,7 +5,7 @@
     font-family: 'Source Code Pro', monospace;
     font-weight: 400;
     position: relative;
-    margin-top: 1rem;
+    margin-top: 2rem;
   }
   .loader:before{
     content: '';
@@ -94,8 +94,8 @@
 
   .spinner {
     position: relative;
-    width: 100px;
-    height: 100px;
+    width: 75px;
+    height: 75px;
   }
   
   .spinner:before , .spinner:after{
@@ -108,6 +108,7 @@
   .spinner:after {
     /* box-shadow: 0 2px 0 rgb(235, 185, 68) inset; */
     /* box-shadow: 0 2px 0 yellow inset; */
+    box-shadow: 0 3px 3px white inset;
     animation: rotate 2s linear infinite;
   }
   /* rgb(235, 185, 68) Giallo*/
@@ -116,22 +117,22 @@
   @keyframes rotate {
     0% {  
       transform: rotate(0);
-      box-shadow: 0 2px 0 yellow;
+      /* box-shadow: 0 0 10px 2px white inset; */
 
     }
-    33% { 
+    /* 33% {  */
       /* transform: rotate(120deg); */
       /* box-shadow: 0 2px 0 rgb(63, 122, 143) inset;   */
-      box-shadow: 0 2px 0 blue;
-    }
-    66% { 
+      /* box-shadow: 0 2px 0 white; */
+    /* } */
+    /* 66% {  */
       /* transform: rotate(240deg); */
       /* box-shadow: 0 2px 0 rgb(134, 36, 40) inset;   */
-      box-shadow: 0 2px 0 red;
-    }
+      /* box-shadow: 0 2px 0 white; */
+    /* } */
     100% { 
       transform: rotate(360deg);
       /* box-shadow: 0 2px 0 rgb(235, 185, 68) inset; */
-      box-shadow: 0 2px 0 yellow;
+      /* box-shadow: 0 0 10px 2px white inset;  */
     }
   }

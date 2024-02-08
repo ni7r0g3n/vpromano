@@ -17,22 +17,27 @@ function App() {
   var navigatingForward = useRef(false);
   const imageRef = useRef(null);
 
+  var loadingOrResizing = useRef(true);
 
   const [loading, setLoading] = useState(true);
   const aspectRatio = window.devicePixelRatio || 1;
 
   const markersList = [
-    {x: 4.15, y: 0.5, image: "Panorama3.png"},
-    {x: 0.3, y: 2.3, image: "Panorama2.png"},
-    {x: 2.5, y: 0.8, image: "Panorama5.png"},
-    {x: 2.4, y: 2.6, image: "Panorama6.png"},
-    {x: 4.4, y: 5.6, image: "Panorama7.png"},
+    {x: 0.55, y: 3.4, image: "Panorama2.png"},
+    {x: 2.35, y: 0.9, image: "Panorama3.png"},
+    {x: 3, y: 4.7, image: "Panorama4.png"},
+    {x: 1.22, y: 0.8, image: "Panorama5.png"},
+    {x: 4, y: 0.4, image: "Panorama6.png"},
+    {x: 2.7, y: 5.7, image: "Panorama7.png"},
+    {x: 3.15, y: 2.45, image: "Panorama8.png"},
   ];
 
   useEffect(() => {
     if (!imageRef) return;
+    console.log("adding event listener")
     const handleResize = () => {
       if (!imageRef.current) return;
+      loadingOrResizing.current = false;
       const bounds = imageRef.current.getBoundingClientRect();
       setImageSize({width: bounds.width, height: bounds.height});
       setOffset({x: bounds.left, y: bounds.top});
@@ -45,7 +50,7 @@ function App() {
       window.removeEventListener("popstate", closeHome);
     }
   }, []);
-  
+
   function closeHome(event){
     event.preventDefault();
     event.stopPropagation();
@@ -102,6 +107,7 @@ function App() {
             className="marker-icon"
             key={index}
             id={id}
+            style={{fontSize: "1rem"}}
             />
           </div>
       );
@@ -158,13 +164,18 @@ function App() {
   //to then make the divs clickable to go to the panorama viewer
   //also need to make the divs responsive to the image size
   function onImageLoad ( event ) {
-    console.log("image loaded");
-    if (!loading) return;
+    console.log("image loaded", loadingOrResizing.current, loading);
+    if (!loadingOrResizing.current){
+      return;
+    }
+    // if (!loading) return;
     var bounds = event.target.getBoundingClientRect();
     setImageSize({width: bounds.width, height: bounds.height});
     setOffset({x: bounds.left, y: bounds.top});
     setLoading(false);
+    loadingOrResizing.current = false;
   }
+
 
   function Viewer(){
     return (
