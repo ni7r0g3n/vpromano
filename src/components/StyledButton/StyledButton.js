@@ -5,9 +5,9 @@ function StyledButton({onClick, children, style}) {
     return (
         
             <button onClick={onClick} className="btn" style={style}>
-                <div>
+                {/* <div> */}
                     {children}
-                </div>
+                {/* </div> */}
                 
             </button>
     )
