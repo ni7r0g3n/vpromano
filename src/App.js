@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import { Route, HashRouter as Router, Routes } from 'react-router-dom';
 import PanoramaViewer from './components/panorama-viewer/PanoramaViewer';
